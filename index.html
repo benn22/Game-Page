@@ -1,0 +1,818 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="icon" type="image/png" href="imagenes/icono.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700|Open+Sans:400,700">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/498c8c0c65.js"></script>
+
+    <title>SHOOTER</title>
+  </head>
+  
+  <style>
+    body h1,h2,h3,h4{
+      font-family: "Josefin Sans",sans-serif;
+      color: #fff;
+    }
+
+    body p{
+      color: #fff;
+    }
+
+    /*PRE-LOAD*/
+    #contenedor-carga{
+      background-color: #000;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      -webkit-transition: all 1s ease;
+      -o-transition: all 1s ease;
+      z-index: 10000;
+    }
+
+    #loading{
+      width: 200px;
+      height: 200px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border-top: 10px solid #E74C3C;
+      animation: a1 2s linear infinite;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    #loading::before,#loading::after{
+      content: '';
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      left: 0;
+      top: -10px;
+      box-sizing: border-box;
+      border-radius: 50%;      
+    }
+
+    #loading::before{
+      border-top: 10px solid #E67E22;
+      transform: rotate(120deg);
+    }
+
+    #loading::after{
+      border-top: 10px solid skyblue;
+      transform: rotate(240deg);
+    }
+
+    #loading span{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: 200px;
+      animation: a2 2s linear infinite;   
+    }
+
+    @keyframes a1 {
+      to { transform: rotate(360deg) ; }
+    }
+
+    @keyframes a2 {
+      to { transform: rotate(-360deg); }
+    }
+    /*PRE-LOAD*/
+
+    /*NAV-BAR*/
+    .nav-per{
+      min-height: 50px;
+      background: rgba(10,10,10,.4);
+      transition: .5s;
+      border: none;
+    }
+
+    .collapse .navbar-nav .nav-item .nav-link{
+      color: #ffffff;
+      transition: .5s;
+    }
+
+    .navbar-right .nav-item .nav-link, .navbar-right .nav-item .nav-link i{
+      color: #FFF;
+      transition: .5s;
+    }
+
+    .nav-per .navbar-brand img{
+      transition: .5s;
+    }
+
+    .navbar-fixed-top{
+      position: fixed;
+      right: 0;
+      left: 0;
+      z-index: 1030;
+    }
+
+    nav.black{
+      background-color: black;
+      height: 50px;
+      padding: 10px 50px;
+    }
+
+    nav.black .navbar-brand img{
+      width: 110px;
+      height: 27px;
+    }
+
+    nav.black .collapse .navbar-nav .nav-item .nav-link{
+      font-size: 12px;
+    }
+    /*NAV-BAR*/
+
+    /*NAV-BAR-LOGIN*/
+    .navbar-expand-lg .navbar-nav .dropdown-menu{
+      opacity: 1;
+      margin-top: 25px;
+      border: none;
+      background: rgba(10,10,10,.8);
+      right: 0;
+      left: auto;
+    }
+
+    .dropdown-menu{
+      position: absolute;
+      top: 100%;
+      z-index: 1000;
+      float: left;
+      min-width: 160px;
+      margin: 2px 0 0;
+      font-size: 14px;
+      text-align: left;
+      list-style: none;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu #login-usuario{
+      min-width: 300px;
+      padding: 0 20px;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu #login-usuario p{
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-size: 16px;
+    }
+
+    .login-input{
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .login-input input{
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 1rem 1.8rem;
+      resize: none;
+      background: rgb(207, 207, 207, .1);
+      height: 40px;
+      border: none;
+      outline: 0;
+      z-index: 2;
+    }
+
+    .btn-login{
+      color: #FFF;
+      background-color: transparent;
+      border: 1px solid white;
+      outline: 0;
+      width: 80px;
+      height: 35px;
+    }
+
+    .btn-login:hover{
+      background-color: #c9572a;
+      border: 1px solid #c9572a;
+    }
+
+    #login-usuario #opciones a{
+      color: #FFF;
+      font-style: none;
+      text-decoration: none;
+    }
+
+    #login-usuario #opciones a:hover{
+      color: #c9572a;
+    }
+    /*NAV-BAR-LOGIN*/
+
+    /*CONTENIDO*/
+    .contenido-all{
+      max-width: none;
+      padding: .1px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .big{
+      min-height: 650px;
+    }
+
+    .banner-top{
+      padding-top: 80px;
+    }
+
+    .banner-fondo{
+      position: relative;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      width: 100%;
+      overflow: hidden;
+      background: #2b2b2b;
+    }
+
+    .image{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: cover;
+      opacity: .7;
+    }
+
+    .banner-fondo .image img{
+      width: 100%;
+      height: 100%;
+    }
+    /*CONTENIDO*/
+
+    /*CARDS*/
+    #cartas a{
+      text-decoration: none;
+    }
+
+    .card{
+      background-color: transparent;
+    }
+
+    .card .card-body{
+      font-family: "Josefin Sans",sans-serif;
+      color: #FFF;
+      position: relative;
+      margin-bottom: 1rem!important;
+      text-align: center;
+    }
+
+    .card .card-body .card-title{
+      border-bottom: 1px solid darkgrey;
+      font-weight: 600;
+    }
+
+    #cartas a:hover .card-img-top{
+      opacity: .7;
+    }
+    /*CARDS*/
+
+    /*BANNERS*/
+    .info{
+      position: relative;
+      width: 100%;
+      padding: 80px 0;
+    }
+
+    .h2-40{
+      font-size: 40px;
+      color: white;
+      font-family: "Josefin Sans",sans-serif;
+    }
+
+    .p-21{
+      font-size: 21px;
+      font-weight: 300;
+      color: #fff;
+    }
+
+    #bn3 img{
+      width: 100%;
+      height: 100%;
+    }
+
+    .alineado-centro{
+      text-align: center;
+    }
+
+    .h3-24{
+      font-family: "Josefin Sans",sans-serif;
+      color: #fff;
+      font-size: 24px;
+    }
+
+    #bn1 .boton{
+      text-decoration: none;
+    }
+
+    #bn1 .boton:hover{
+      background-color: #c9572a;
+      color: white;
+      border: 2px solid #c9572a;
+    }
+
+    #bn1 .boton i{
+      margin-right: 5px;
+    }
+
+    #bn4 .boton{
+      text-decoration: none;
+    }
+
+    .boton{
+      color: #fff;
+      background: 0 0;
+      border: none;
+      outline: 0;
+      box-shadow: none;
+      display: inline-block;
+      font-weight: 400;
+      font-size: 21px;
+      position: relative;
+    }
+
+    .lg{
+      width: 185px;
+      height: 55px;
+      border: 2px solid #FFF;
+      padding: 10px;
+    }
+
+    #bn4 .boton:hover{
+      background-color: #c9572a;
+      color: white;
+      border: 2px solid #c9572a;
+    }
+    /*BANNERS*/
+
+    /*FOOTER*/
+    footer{
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .wraper{
+      position: relative;
+      background-size: cover;
+    }
+
+    .widgets{
+      padding-top: 8rem;
+      padding-bottom: 5rem;
+      background: rgba(26,26,32,.45);
+    }
+
+    .side-block{
+      margin-bottom: 3rem;
+    }
+
+    .contenido-bloque{
+      padding-top: 0 1rem;
+      margin-top: 1rem;
+    }
+
+    .titulo-bloque{
+      position: relative;
+      /*padding: 1rem 1.8rem;*/
+      padding: 0 1.8rem;
+      margin: 0;
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,.1);      
+    }
+
+    .titulo-bloque{
+      font-size: 18px;
+    }
+
+    .side-noticias{
+      padding: .5rem 0;
+      text-align: left;
+    }
+
+    .angled-img{
+      color: inherit;
+      text-decoration: none;
+      outline: 0;
+      position: relative;
+      display: block;
+    }
+
+    .elipsis{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;      
+    }
+
+    .side-block .col-xs-9 h4{
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      margin-top: 5px;
+    }
+
+    .side-block a{
+      text-decoration: none;
+      color: #FFF;
+    }
+
+    .date{
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+    }
+
+    .date i{
+      margin-right: 3px;
+    }
+
+    .side-block .date{
+      display: block;
+      margin: .5rem 0;
+    }
+
+    .twitter{
+      color: #FFF;
+    }
+
+    .twitter i{
+      margin-right: 10px;
+    }
+
+    .twitter-text{
+      color: #FFF;
+    }
+
+    footer .copy{
+      position: relative;
+      padding: 30px 10px;
+      text-align: center;
+      background: rgba(10,10,10,.7);
+    }
+
+    .side-noticias .angled-img:hover .image img{
+      opacity: .7;
+    }
+
+    .side-block a:hover{
+      color: orange;
+    }
+    /*FOOTER*/        
+  </style>
+
+  <body>
+    <!-- Inicia Pre-Load -->
+    <div id="contenedor-carga">
+      <div id="loading">
+        <span><img src="imagenes/logo.png" alt=""></span>
+      </div>
+    </div>
+    <!-- Termina Pre-Load -->
+
+    <!-- Inicia Nav-Bar -->
+    <nav class="nav-per navbar navbar-expand-lg navbar-fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="imagenes/logo.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav">            
+            <li class="nav-item">
+              <a class="nav-link" href="#">PRE-ORDER</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">NEWS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">COMMUNITY</a>
+            </li>
+          </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i></a>            
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <form action="datos.html" method="post" id="login-usuario" onsubmit="return validar()">
+                <p>Usuario:</p>
+                  <div class="login-input">
+                    <input id="inp1" type="text" name="usuario">
+                  </div>
+                <p>Contraseña:</p>
+                  <div class="login-input">
+                    <input id="inp2" type="password" name="contraseña">
+                  </div>
+                <button type="submit" value="ingresar" class="btn-login">
+                  Login
+                </button>
+                <br>
+                <p id="opciones">
+                  <a href="#">¿Olvido la contraseña?</a>
+                  |
+                  <a href="#">Registrarse</a>
+                </p>
+              </form>              
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Termina Nav-Bar -->
+
+    <div class="contenido-all">
+      <section class="banner-fondo banner-top big">
+        <div class="image">
+          <img src="imagenes/banner.jpg" alt="">
+        </div>
+        <div class="info">
+          <div>
+            <div class="container" id="bn1">
+              <div class="alineado-centro">
+                <h1 style="font-size: 60px;">CALL OF SHOOTER</h1>
+                <a href="#" class="boton lg" style="font-size: 14px; width: 200px; height: 45px;">
+                  <i class="fas fa-play-circle"></i>Watch The Trailer
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inicia Cartas -->
+      <div class="container py-5">
+        <div id="cartas" class="row">
+          <a href="#" class="card col-md-3">
+            <img src="imagenes/card1.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Preorder Today</h4>
+              <p class="card-text">We will send you Early Edition of Call of Shooter.</p>
+            </div>           
+          </a>
+          <a href="#" class="card col-md-3">
+            <img src="imagenes/card2.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Our News</h4>
+              <p class="card-text">We will send you Early Edition of Call of Shooter.</p>
+            </div>           
+          </a>
+          <a href="#" class="card col-md-3">
+            <img src="imagenes/card3.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Join Community</h4>
+              <p class="card-text">We will send you Early Edition of Call of Shooter.</p>
+            </div>           
+          </a>
+          <a href="#" class="card col-md-3">
+            <img src="imagenes/card4.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Follow on Twitter</h4>
+              <p class="card-text">We will send you Early Edition of Call of Shooter.</p>
+            </div>           
+          </a>
+        </div>
+      </div>
+      <!-- Termina Cartas -->
+
+      <!-- Inicia Banner 2 -->
+      <section class="banner-fondo big">
+        <div class="image">
+          <img src="imagenes/banner2.jpg" alt="">
+        </div>
+        <div class="info">
+          <div class="container">
+            <div class="col-md-8">
+              <h2 class="h2-40">REALISTIC BATTLES</h2>
+              <p class="p-21">
+                Eleifend sem ipsum conubia euismod potenti ante ad sem sed, dictumst hymenaeos torquent quis. Class leo. Odio orci velit nulla habitasse conubia tempor eleifend dui suscipit mauris eget mollis
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Termina Banner 2 -->
+
+      <!-- Inicia Banner 3 -->
+      <section class="container" style="margin-top: 120px;">
+          <div class="col-xs-12" id="bn3">
+            <img src="imagenes/banner3.jpg" alt="">
+            <h2 class="h2-40" style="margin-top: 2rem;">The True Emotions</h2>
+            <p class="p-21">
+              Vivamus maecenas, praesent. Sociosqu laoreet risus purus. Sed mus vivamus. Pede metus rutrum dui Aliquet ac auctor nulla montes Donec fermentum penatibus feugiat elementum interdum Consequat ipsum turpis proin taciti cursus senectus urna ultrices orci dui id vitae massa hendrerit consectetuer lectus augue inceptos viverra erat. Vitae nostra fames neque.
+            </p>
+        </div>
+      </section>
+      <!-- Termina Banner 3 -->
+
+      <!-- Inicia Banner 4 -->
+      <section id="bn4" class="banner-fondo big" style="margin-top: 120px;">
+        <div class="image">
+          <img src="imagenes/banner4.jpg" alt="">
+        </div>
+        <div class="info container alineado-centro">
+          <div>
+            <h2 class="h2-40">PRE-ORDER TODAY</h2>
+            <h3 class="h3-24">Xbox One and Play Station 4</h3>
+            <br>
+            <br>
+            <a href="#" class="boton lg">Pre-Order</a>
+          </div>
+        </div>
+      </section>
+      <!-- Termina Banner 4 -->
+
+      <!-- Inicia Footer -->
+      <footer>
+        <div class="wraper">
+          <div class="widgets">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                <div class="side-block">
+                  <div class="contenido-bloque">
+                    <img src="imagenes/logo.png" alt="">
+                    <br>
+                    <br>
+                    <p>                      
+                      Pretium placerat senectus cubilia purus. In curae; sem morbi odio, platea magna. Fames integer accumsan. Pellentesque proin fermentum et consequat.                                    
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="side-block">
+                  <h4 class="titulo-bloque">Popular News</h4>
+                  <div class="contenido-bloque" style="padding: 0;">
+                    <div class="row side-noticias">
+                      <div class="col-xs-3 col-md-4">
+                        <a href="#" class="angled-img">
+                          <div class="image">
+                            <img src="imagenes/card1.jpg" alt="" style="width: 100%;">
+                          </div>
+                        </a>
+                      </div>
+                      <div class="col-xs-9 col-md-8">
+                        <h4 class="ellipsis">
+                          <a href="#">Ready for Preorder...</a>
+                        </h4>
+                        <span class="date">
+                          <i class="fas fa-calendar-alt"></i>May 14, 2017
+                        </span>                       
+                      </div>
+                    </div>
+                    <div class="row side-noticias">
+                      <div class="col-xs-3 col-md-4">
+                        <a href="#" class="angled-img">
+                          <div class="image">
+                            <img src="imagenes/card2.jpg" alt="" style="width: 100%;">
+                          </div>
+                        </a>
+                      </div>
+                      <div class="col-xs-9 col-md-8">
+                        <h4 class="ellipsis">
+                          <a href="#">Closed Beta Start...</a>
+                        </h4>
+                        <span class="date">
+                          <i class="fas fa-calendar-alt"></i>May 14, 2017
+                        </span>                       
+                      </div>
+                    </div>
+                    <div class="row side-noticias">
+                      <div class="col-xs-3 col-md-4">
+                        <a href="#" class="angled-img">
+                          <div class="image">
+                            <img src="imagenes/card3.jpg" alt="" style="width: 100%;">
+                          </div>
+                        </a>
+                      </div>
+                      <div class="col-xs-9 col-md-8">
+                        <h4 class="ellipsis">
+                          <a href="#">We are on Face...</a>
+                        </h4>
+                        <span class="date">
+                          <i class="fas fa-calendar-alt"></i>May 14, 2017
+                        </span>                       
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="side-block">
+                  <h4 class="titulo-bloque">
+                    Our Twitter
+                  </h4>
+                  <div class="contenido-bloque">
+                    <div>
+                      <div class="twitter">
+                        <i class="fab fa-twitter"></i><span style="font-size: 12px; color: grey;">20 April</span>
+                      </div>
+                      <div class="twitter-text">
+                        <p>@ColleenMBrady Hey. Yes, will be added in PRO addon, but no have ETA as it is not a high priority.</p>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="twitter">
+                        <i class="fab fa-twitter"></i><span style="font-size: 12px; color: grey;">20 April</span>
+                      </div>
+                      <div class="twitter-text">
+                        <p>@norlinri Maybe in some themes it doesn't work. Could you create a ticket in nk.ticksy.com</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="side-block">
+                  <h4 class="titulo-bloque">
+                    Instagram
+                  </h4>
+                  <div class="col-xs-12" style="color: #FFF;">Failed to load data</div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="copy">
+          <div class="container">
+            <p>2018 ©<strong>PeR</strong>.Derechos Reservados P' Causa</p>
+          </div>
+        </div>
+      </footer>
+      <!-- Termina Footer -->
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+      /*window.onload = function(){
+        var contenedor = document.getElementById('contenedor-carga');
+
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+      }*/
+
+      $(document).ready(function(){
+        $("#contenedor-carga, #loading").fadeOut(2500);
+
+        $(window).on('scroll', function(){
+        if($(window).scrollTop()){
+          $('nav').addClass('black');
+        } else{
+          $('nav').removeClass('black');
+        }
+      });         
+      });
+
+      function validar(){
+        var user = document.getElementById("inp1").value;
+        var contraseña = document.getElementById("inp2").value;
+
+        var usr = "admin";
+        var pss = 123;
+        
+        /*if (user === "" || pss === ""){
+          alert("Los campos estan vacios");
+        } else if(user == usr && contraseña == pss){
+          alert("Los campos son correctos");
+        } else{
+          alert("Los campos son incorrectos");
+        }*/
+        if (user == usr && contraseña == pss){
+          alert("Los campos son correctos");
+        } else if(user == "" || pss == ""){
+          alert("Los campos estan vacios");
+        } else if (user != usr && contraseña != pss){
+          alert("Los campos son incorrectos");
+        } else if(user != usr){
+          alert("El usuario es incorrecto");
+        } else if (contraseña != pss){
+          alert("La contraseña es incorrecta");
+        } 
+      };
+    </script>
+  </body>
+</html>
